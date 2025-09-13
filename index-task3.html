@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style-task3.css">
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <h1>COUNT DOWN TIMER</h1>
+        </div>
+        <div>
+            <input type="number" id="timeInput" class="input">
+        </div>
+        <div>
+            <button id="startButton" onclick="startTimer()" class="animated-button">Start</button>
+            <button id="resetButton" onclick="resetTimer()" class="animated-button">Reset</button>
+            <button id="pauseButton" onclick="pauseTimer()" class="animated-button">Pause</button>
+            <button id="resumeButton" onclick="resumeTimer()" class="animated-button">Resume</button>
+        </div>
+        <div>
+            <h3 id="timeLeft"></h3>
+        </div>
+    </div>
+    <script>
+        const timeLeftElement = document.getElementById("timeLeft")
+        const startButton = document.getElementById('startButton');
+        const resetButton = document.getElementById('resetButton');
+        const pauseButton = document.getElementById('pauseButton');
+        const resumeButton = document.getElementById('resumeButton');
+        const timeInput = document.getElementById("timeInput")
+        let timerInterval = null;
+        let timeLeft = 0;
+        let isRunning = true;
+        let isPaused = false;
+        timeLeftElement.textContent = `TIME LEFT : ${timeLeft} SECONDS`;
+        function startTimer() {
+            if (isRunning) {
+                timeLeft = parseInt(timeInput.value);
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft >= 0) {
+                        timeLeftElement.textContent = `TIME LEFT : ${timeLeft} SECONDS`;
+                    } else {
+                        timeLeftElement.textContent = `TIME LEFT : 0 SECONDS`;
+                    }
+                }, 1000);
+                startButton.style.visibility = 'hidden';
+            }
+        }
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = timeInput.value;
+            isRunning = true;
+            startButton.style.visibility = 'visible';
+            timeLeftElement.textContent = `TIME LEFT : ${timeLeft} SECONDS`;
+        }
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isRunning = false;
+            isPaused = true;
+        }
+        function resumeTimer() {
+            if (isPaused) {
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft >= 0) {
+                        timeLeftElement.textContent = `TIME LEFT : ${timeLeft} SECONDS`;
+                    } else {
+                        timeLeftElement.textContent = `TIME LEFT : 0 SECONDS`;
+                    }
+                }, 1000);
+                isPaused = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
